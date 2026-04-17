@@ -77,11 +77,12 @@ public class Main {
 		List<Integer> ans = new ArrayList<>();
 		while (temp != -1) {
 			ans.add(temp);
+
 			temp = path[temp];
-			answer++;
+			
 		}
 		Collections.reverse(ans);
-		sb.append(ans.size()-1).append("\n");
+		sb.append(dist[B]).append("\n");
 		for (int node : ans) {
 			sb.append(node).append(" ");
 		}
