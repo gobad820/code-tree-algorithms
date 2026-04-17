@@ -1,4 +1,5 @@
 
+
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
@@ -6,6 +7,8 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.PriorityQueue;
 import java.util.StringTokenizer;
@@ -34,9 +37,9 @@ public class Main {
 			int u = Integer.parseInt(st.nextToken());
 			int v = Integer.parseInt(st.nextToken());
 			int w = Integer.parseInt(st.nextToken());
-			graph[u].add(new int[] {v,w});
-			graph[v].add(new int[] {u,w});
-			
+			graph[u].add(new int[] { v, w });
+			graph[v].add(new int[] { u, w });
+
 		}
 		st = new StringTokenizer(br.readLine());
 		A = Integer.parseInt(st.nextToken());
@@ -54,6 +57,9 @@ public class Main {
 			int[] curr = pq.poll();
 			int currNode = curr[0];
 			int currDist = curr[1];
+			if (currDist > dist[currNode]) {
+				continue;
+			}
 
 			for (int[] next : graph[currNode]) {
 				int nextNode = next[0];
@@ -68,15 +74,19 @@ public class Main {
 		}
 
 		int temp = B;
-		answer = 0;
-		while(temp != A) {
-			sb.append(temp).append(" ");
+		List<Integer> ans = new ArrayList<>();
+		while (temp != -1) {
+			ans.add(temp);
 			temp = path[temp];
 			answer++;
 		}
-		sb.append(A);
-		bw.write(answer+"\n");
-		bw.write(sb.reverse().toString());
+		Collections.reverse(ans);
+		sb.append(ans.size()-1).append("\n");
+		for (int node : ans) {
+			sb.append(node).append(" ");
+		}
+
+		bw.write(sb.toString());
 		bw.flush();
 		bw.close();
 		br.close();
