@@ -14,10 +14,10 @@ public class Main {
 		N = Integer.parseInt(st.nextToken());
 		M = Integer.parseInt(st.nextToken());
 
-		board = new int[N][N];
+		board = new int[N][M];
 		for(int y = 0 ; y < N ; y++	){
 			st = new StringTokenizer(br.readLine());
-			for(int x = 0 ; x < N ; x++){
+			for(int x = 0 ; x < M ; x++){
 				board[y][x]  = Integer.parseInt(st.nextToken());
 			}
 		}
@@ -25,18 +25,18 @@ public class Main {
 
 		// shape 1 iteration
 		for(int y = 0 ; y < N ; y++){
-			for(int x = 0 ; x < N-1;  x++){
-				int sum0 = (x+1 >= N || y-1 < 0 ) ? 0 : board[y][x] + board[y][x+1] + board[y-1][x];
+			for(int x = 0 ; x < M;  x++){
+				int sum0 = (x+1 >= M || y-1 < 0 ) ? 0 : board[y][x] + board[y][x+1] + board[y-1][x];
 				int sum1 = (x-1 < 0 || y-1 < 0 ) ? 0 : board[y][x] + board[y][x-1] + board[y-1][x];
-				int sum2 = (x+1 >= N || y+1 >= N) ? 0 : board[y][x] + board[y][x+1] + board[y+1][x];
+				int sum2 = (x+1 >= M || y+1 >= N) ? 0 : board[y][x] + board[y][x+1] + board[y+1][x];
 				int sum3 = (x-1 < 0 || y+1 >= N) ? 0 : board[y][x] + board[y][x-1] + board[y+1][x];
 				answer = Math.max(sum0, Math.max(sum1, Math.max(sum2, Math.max(answer, sum3))));
 			}
 		}
 
 		for(int y = 0 ; y < N ; y++){
-			for(int x = 0 ; x < N; x++){
-				int sum0 = (x-1 < 0 || x+1 >= N) ? 0 : board[y][x-1] + board[y][x] + board[y][x+1];
+			for(int x = 0 ; x < M; x++){
+				int sum0 = (x-1 < 0 || x+1 >= M) ? 0 : board[y][x-1] + board[y][x] + board[y][x+1];
 				int sum1 = (y-1 < 0 || y+1 >= N) ? 0 : board[y-1][x] + board[y][x] + board[y+1][x];
 				answer = Math.max(sum0, Math.max(sum1, answer));
 			}
