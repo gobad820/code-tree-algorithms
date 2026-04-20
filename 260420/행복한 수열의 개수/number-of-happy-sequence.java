@@ -1,5 +1,3 @@
-
-
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
@@ -23,19 +21,14 @@ public class Main {
 		M = Integer.parseInt(st.nextToken());
 
 		board = new int[N][N];
-		Map<Integer, Integer>[] rows, cols;
-		rows = new Map[N];
-		cols = new Map[N];
-		for (int i = 0; i < N; i++) {
-			rows[i] = new HashMap<>();
-			cols[i] = new HashMap<>();
-		}
+		
+		
 
 		for (int y = 0; y < N; y++) {
 			st = new StringTokenizer(br.readLine());
 			for (int x = 0; x < N; x++) {
 				board[y][x] = Integer.parseInt(st.nextToken());
-				rows[y].merge(board[y][x], 1, Integer::sum);
+			
 			}
 		}
 
@@ -43,44 +36,26 @@ public class Main {
 		if (M == 1) {
 			answer = (N * 2);
 		} else {
-			for (int x = 0; x < N; x++) {
-				for (int y = 0; y < N; y++) {
-					cols[x].merge(board[y][x], 1, Integer::sum);
+			for(int y = 0 ; y <  N ; y++){
+				int cnt = 1;
+				for(int x = 1 ; x < N ; x++){
+					cnt = (board[y][x-1] == board[y][x] ? cnt + 1 : 1);
+					if(cnt >= M) {
+						answer++;
+						break;
+					}
 				}
 			}
-
-			for (int y = 0; y < N; y++) {
-                boolean isHappy = false;
-                for(int x = 1 ; x <= N - M + 1 ; x++){
-                    int i = 0;
-                    for(; i < M-1 ; i++){
-                        if(board[y][x+i-1] != board[y][x+i]){
-                            // isHappy = false;
-                            break;
-                        }
-                    }
-                    if(i == M-1) {
-                        answer++;
-                        break;
-                    }    
-                }
-
-                isHappy = false;
-                for(int x = 1 ; x <= N - M + 1 ; x++){
-                    int i = 0;
-                    for(; i < M -1; i++){
-                        if(board[x+i-1][y] != board[x+i][y]){
-                            // isHappy = false;
-                            break;
-                        }
-                    }
-                    if(i == M-1) {
-                        answer++;
-                      break;
-                    }    
-                }
-
-            }
+			for(int x = 0 ; x < N ; x++){
+				int cnt = 1;
+				for(int y = 1 ; y < N ; y++){
+					cnt = board[y-1][x] == board[y][x] ? cnt + 1  :1 ;
+					if(cnt >= M) {
+						answer++;
+						break;
+					}
+				}
+			}
 		}
 		bw.write(answer + "");
 		bw.flush();
