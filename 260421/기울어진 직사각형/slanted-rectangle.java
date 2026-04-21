@@ -11,7 +11,8 @@ public class Main {
 	static BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
 	static StringTokenizer st;
 	static int N, M, testcase, answer, board[][];
-	static List<Integer>[] lst;
+	static final int [] dy = {1,1,-1,-1};
+	static final int [] dx = {-1,1,1,-1};
 
 	public static void main(String[] args) throws IOException {
 		N = Integer.parseInt(br.readLine());
@@ -45,39 +46,17 @@ public class Main {
 	private static int goForSquare(int y, int x, int height, int width) {
 		// 좌하로 이동
 		int sum = 0;
-		for (int i = 0; i < height; i++) {
-			if (checkArrayIndexBounds(y, x)) {
-				return -1;
-			}
-			sum += board[y][x];
-			y++;
-			x--;
-		}
 
-		for (int i = 0; i < width; i++) {
-			if (checkArrayIndexBounds(y, x)) {
-				return -1;
+		for(int dir = 0 ; dir < 4 ; dir++){
+			int length = dir % 2 == 0 ? height : width;
+			for(int i = 0 ; i < length ; i++){
+				if(checkArrayIndexBounds(y,x)){
+					return -1;
+				}
+				sum += board[y][x];
+				y += dy[dir];
+				x += dx[dir];
 			}
-			sum += board[y][x];
-			y++;
-			x++;
-		}
-
-		for (int i = 0; i < height; i++) {
-			if (checkArrayIndexBounds(y, x)) {
-				return -1;
-			}
-			sum += board[y][x];
-			y--;
-			x++;
-		}
-		for (int i = 0; i < width; i++) {
-			if (checkArrayIndexBounds(y, x)) {
-				return -1;
-			}
-			sum += board[y][x];
-			y--;
-			x--;
 		}
 		return sum;
 	}
