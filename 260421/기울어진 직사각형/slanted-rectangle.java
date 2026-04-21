@@ -3,7 +3,6 @@ import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.StringTokenizer;
 
@@ -26,11 +25,14 @@ public class Main {
 		}
 		int answer = 0;
 		StringBuilder sb = new StringBuilder();
-		lst = new List[N];
-		for (int startX = 1; startX < N - 1; startX++) {
-			lst[startX] = new ArrayList<>();
-			answer = Math.max(answer, getMaximumValue(startX));
-//			sb.append(lst[startX].toString()).append("\n\n");
+		for (int y = 0; y < N; y++) {
+			for (int x = 0; x < N; x++) {
+				for (int width = 1; width < N; width++) {
+					for (int height = 1; height < N; height++) {
+						answer = Math.max(answer, goForSquare(y, x, height, width));
+					}
+				}
+			}
 		}
 
 		sb.append(answer);
@@ -40,89 +42,48 @@ public class Main {
 		br.close();
 	}
 
-	private static int getMaximumValue(int startX) {
-		// TODO Auto-generated method stub
-		int startY = 0;
-		int firstY = startY, firstX = startX;
-
+	private static int goForSquare(int y, int x, int height, int width) {
+		// 좌하로 이동
 		int sum = 0;
-		int idx = startX;
-		boolean flag = false;
-		// 좌하
-		while (startY < N && startX >= 0) {
-			startY++;
-			startX--;
-
-			if (startY >= N) {
-				startY = N - 1;
-				startX++;
-				break;
+		for (int i = 0; i < height; i++) {
+			if (checkArrayIndexBounds(y, x)) {
+				return -1;
 			}
-			if (startX < 0) {
-				startX = 0;
-				startY--;
-				break;
-			}
-			sum += board[startY][startX];
-			lst[idx].add(board[startY][startX]);
+			sum += board[y][x];
+			y++;
+			x--;
 		}
 
-		// 우하
-		while (startY < N && startX < N) {
-			startY++;
-			startX++;
-
-			if (startY >= N) {
-				startY = N - 1;
-				startX--;
-				break;
+		for (int i = 0; i < width; i++) {
+			if (checkArrayIndexBounds(y, x)) {
+				return -1;
 			}
-			if (startX >= N) {
-				startX = N - 1;
-				startY--;
-				break;
-			}
-			sum += board[startY][startX];
-			lst[idx].add(board[startY][startX]);
-
+			sum += board[y][x];
+			y++;
+			x++;
 		}
 
-		// 우상
-		while (startY >= 0 && startX < N) {
-			startY--;
-			startX++;
-
-			if (startY < 0) {
-				startY = 0;
-				startX--;
-				break;
+		for (int i = 0; i < height; i++) {
+			if (checkArrayIndexBounds(y, x)) {
+				return -1;
 			}
-			if (startX >= N) {
-				startX = N - 1;
-				startY++;
-				break;
-			}
-			sum += board[startY][startX];
-			lst[idx].add(board[startY][startX]);
+			sum += board[y][x];
+			y--;
+			x++;
 		}
-		// 좌상
-		while (startY >= 0 && startX >= 0) {
-			int tempY = startY--;
-			int tempX = startX--;
-
-			if (startY < 0) {
-				startY = tempY;
-				startX = tempX;
-				break;
+		for (int i = 0; i < width; i++) {
+			if (checkArrayIndexBounds(y, x)) {
+				return -1;
 			}
-			if (startX < 0) {
-				startX = tempX;
-				startY = tempY;
-				break;
-			}
-			sum += board[startY][startX];
-			lst[idx].add(board[startY][startX]);
+			sum += board[y][x];
+			y--;
+			x--;
 		}
 		return sum;
 	}
+
+	private static boolean checkArrayIndexBounds(int y, int x) {
+		return y >= N || x < 0 || y < 0 || x >= N;
+	}
+
 }
