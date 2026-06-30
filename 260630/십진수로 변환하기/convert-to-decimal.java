@@ -5,14 +5,7 @@ public class Main {
     public static void main(String[] args) {
         // Please write your code here.
         Scanner sc = new Scanner(System.in);
-        String binary = sc.nextLine();
-        int num = 0;
-
-        for(int i = 0 ; i < binary.length() ; i++){
-            num = num * 2 + (binary.charAt(i) - '0');
-        }
-        System.out.println(num);
-
+        System.out.println(Integer.parseInt(sc.nextLine(),2));
         sc.close();
     }
 }
